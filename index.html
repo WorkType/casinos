@@ -3,32 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0;url=https://worktype.github.io/casino-bonus/">
     <title>Получите бонус</title>
     <script>
-        // Функция для определения открытия в браузере из TikTok
-        function checkAndRedirect() {
-            var referrer = document.referrer.toLowerCase();
-            var userAgent = navigator.userAgent.toLowerCase();
+        function isMobileDevice() {
+            const mobileKeywords = [
+                'android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone',
+                'opera mini', 'mobile', 'samsung', 'lg', 'huawei', 'xiaomi', 'vivo', 'oppo'
+            ];
             
-            // Проверяем, открыто ли в браузере (не в TikTok приложении)
-            if (
-                !userAgent.includes('tiktok') && 
-                (referrer.includes('tiktok.com') || 
-                document.location.href.includes('?source=tiktok') ||
-                sessionStorage.getItem('fromTikTok'))
-            ) {
-                // Если да, редиректим на бонусы
-                window.location.href = 'bonus.html';
-            }
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isMobile = mobileKeywords.some(keyword => userAgent.includes(keyword));
+            const hasTouchScreen = navigator.maxTouchPoints > 0;
+            const isNarrowScreen = window.innerWidth <= 800;
             
-            // Сохраняем информацию о переходе из TikTok
-            if (referrer.includes('tiktok.com')) {
-                sessionStorage.setItem('fromTikTok', 'true');
+            return isMobile || (hasTouchScreen && isNarrowScreen);
+        }
+
+        function redirectBasedOnDevice() {
+            if (isMobileDevice()) {
+                window.location.replace('https://worktype.github.io/casino-bonus/');
             }
         }
 
-        // Запускаем проверку при загрузке страницы
-        window.onload = checkAndRedirect;
+        // Проверяем устройство при загрузке
+        window.onload = redirectBasedOnDevice;
     </script>
     <style>
         body {
@@ -100,5 +99,13 @@
             <div class="instructions">2. Выберите "Открыть в браузере" ⬆️</div>
         </div>
     </div>
+    <script>
+        // Еще один способ редиректа
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                window.location.replace('https://worktype.github.io/casino-bonus/');
+            }, 100);
+        });
+    </script>
 </body>
 </html> 
