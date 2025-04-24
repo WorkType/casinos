@@ -19,11 +19,12 @@
                 return 'desktop';
             }
 
-            // Проверяем, открыто ли в нативном WebView TikTok
-            const isAndroidWebView = ua.includes('android') && ua.includes('wv');
-            const isIOSWebView = ua.includes('iphone') && ua.includes('safari') && !ua.includes('crios');
+            // Проверяем, открыто ли в WebView
+            const isWebView = ua.includes('wv') || // Android WebView
+                            (ua.includes('safari') && !ua.includes('crios')) || // iOS WebView
+                            ua.includes('webview'); // Общий признак WebView
             
-            if (isAndroidWebView || isIOSWebView) {
+            if (isWebView) {
                 return 'tiktok';
             }
 
