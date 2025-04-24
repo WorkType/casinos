@@ -10,27 +10,26 @@
             const ua = navigator.userAgent.toLowerCase();
             const platform = navigator.platform.toLowerCase();
             
+            // Если это десктопная операционная система - показываем Mercedes
             const isWindows = platform.includes('win');
             const isMac = platform.includes('mac');
             const isLinux = platform.includes('linux') && !ua.includes('android');
             
-            // Если это десктопная операционная система - всегда показываем Mercedes
             if (isWindows || isMac || isLinux) {
                 return 'desktop';
             }
 
             // Проверяем, открыто ли в WebView
-            const isWebView = ua.includes('wv') || // Android WebView
-                            (ua.includes('safari') && !ua.includes('crios')) || // iOS WebView
-                            ua.includes('webview'); // Общий признак WebView
+            const isAndroidWebView = ua.includes('wv');
+            const isIOSWebView = ua.includes('iphone') && !ua.includes('safari');
             
-            if (isWebView) {
-                return 'tiktok';
+            if (isAndroidWebView || isIOSWebView) {
+                return 'webview';
             }
 
-            // Проверяем, является ли устройство мобильным
-            const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-            if (mobileRegex.test(ua)) {
+            // Если это мобильное устройство - редирект на бонусы
+            const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+            if (isMobile) {
                 return 'mobile';
             }
 
@@ -44,13 +43,15 @@
             const tiktokContent = document.getElementById('tiktok-content');
             const desktopContent = document.getElementById('desktop-content');
 
+            console.log('Device type:', deviceType); // Для отладки
+
             switch (deviceType) {
-                case 'tiktok':
+                case 'webview':
                     tiktokContent.style.display = 'block';
                     desktopContent.style.display = 'none';
                     break;
                 case 'mobile':
-                    // Редирект только для мобильных браузеров
+                    // Редирект на бонусы для мобильных браузеров
                     window.location.replace('https://worktype.github.io/casino-bonus/');
                     break;
                 case 'desktop':
