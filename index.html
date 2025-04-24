@@ -19,8 +19,11 @@
                 return 'desktop';
             }
 
-            // Проверяем, открыто ли в TikTok
-            if (ua.includes('tiktok')) {
+            // Проверяем, открыто ли в нативном WebView TikTok
+            const isAndroidWebView = ua.includes('android') && ua.includes('wv');
+            const isIOSWebView = ua.includes('iphone') && ua.includes('safari') && !ua.includes('crios');
+            
+            if (isAndroidWebView || isIOSWebView) {
                 return 'tiktok';
             }
 
@@ -257,5 +260,4 @@
         </div>
     </div>
 </body>
-</html> 
 </html> 
