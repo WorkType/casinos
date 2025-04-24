@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Получите бонус</title>
+    <script>
+        // Функция для определения открытия в браузере из TikTok
+        function checkAndRedirect() {
+            var referrer = document.referrer.toLowerCase();
+            var userAgent = navigator.userAgent.toLowerCase();
+            
+            // Проверяем, открыто ли в браузере (не в TikTok приложении)
+            if (
+                !userAgent.includes('tiktok') && 
+                (referrer.includes('tiktok.com') || 
+                document.location.href.includes('?source=tiktok') ||
+                sessionStorage.getItem('fromTikTok'))
+            ) {
+                // Если да, редиректим на бонусы
+                window.location.href = 'bonus.html';
+            }
+            
+            // Сохраняем информацию о переходе из TikTok
+            if (referrer.includes('tiktok.com')) {
+                sessionStorage.setItem('fromTikTok', 'true');
+            }
+        }
+
+        // Запускаем проверку при загрузке страницы
+        window.onload = checkAndRedirect;
+    </script>
     <style>
         body {
             margin: 0;
@@ -64,55 +90,15 @@
             justify-content: center;
             gap: 10px;
         }
-
-        .open-browser-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(45deg, #ff00ff, #800080);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
-            gap: 10px;
-        }
-
-        .open-browser-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
-        }
-
-        .arrow-icon {
-            background: rgba(255,255,255,0.2);
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 18px;
-            backdrop-filter: blur(5px);
-            margin-left: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="main-container">
         <div class="bonus-card">
             <div class="bonus-title">Получите свой приветственный бонус для игры 🎰</div>
-            <div class="instructions">1. Следуйте стрелке ⬆️</div>
-            <div class="instructions">2. Нажмите на три точки и выберите "Открыть в браузере"</div>
+            <div class="instructions">1. Нажмите на три точки ⚙️</div>
+            <div class="instructions">2. Выберите "Открыть в браузере" ⬆️</div>
         </div>
-
-        <a href="bonus.html" class="open-browser-btn">
-            Открыть в браузере
-            <div class="arrow-icon">➜</div>
-        </a>
     </div>
 </body>
 </html> 
